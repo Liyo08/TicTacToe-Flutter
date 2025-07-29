@@ -1,30 +1,24 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:tic_tac_toe_game/main.dart';
+import 'package:tic_tac_toe_game/main.dart'; // Adjust path based on your project
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Tap on cell updates board with X', (WidgetTester tester) async {
+    // Pump the widget into the test environment
+    await tester.pumpWidget(TicTacToe());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find all the cells in the grid
+    final cells = find.byType(GestureDetector);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify initial state is empty
+    expect(find.text('X'), findsNothing);
+    expect(find.text('O'), findsNothing);
+
+    // Tap the first cell
+    await tester.tap(cells.at(0));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // After tapping, cell should show "X"
+    expect(find.text('X'), findsOneWidget);
   });
 }
